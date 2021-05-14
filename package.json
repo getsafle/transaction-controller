@@ -1,0 +1,20 @@
+{
+  "name": "@getsafle/transactions-controller",
+  "version": "1.0.0",
+  "description": "Getsafle transactions controller",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getsafle/transaction-controller"
+  },
+  "author": "Shubham Singhal",
+  "license": "ISC",
+  "homepage": "https://github.com/getsafle/transaction-controller#readme",
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
