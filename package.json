@@ -1,7 +1,7 @@
 {
-  "name": "@getsafle/transactions-controller",
+  "name": "@getsafle/transaction-controller",
   "version": "1.0.0",
-  "description": "Getsafle transactions controller",
+  "description": "Getsafle transaction controller",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
