@@ -15,7 +15,7 @@ async function getRequest({ url }) {
 async function getURL(network){
   if(network === 'polygon-mainnet'){
 
-   let url =  `https://api.polygonscan.com/`;
+   let url =  `https://api.polygonscan.com`;
 
     return { url };
   }
