@@ -35,7 +35,7 @@ class TransactionController {
 
     const {url: apiUrl} = await Helper.getURL(network);
 
-    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&page=1`;
+    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest`;
 
     if (fromBlock) {
       url += `&startBlock=${parseInt(fromBlock, 10)}`;
