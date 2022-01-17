@@ -11,5 +11,22 @@ async function getRequest({ url }) {
       return { error: error.response };
     }
 }
-  
-module.exports = { getRequest };
+ 
+async function getURL(network){
+  if(network === 'polygon-mainnet'){
+
+   let url =  `https://api.polygonscan.com/`;
+
+    return { url };
+  }
+  else{
+    const etherscanSubdomain =
+      network === 'mainnet' ? 'api' : `api-${network}`;
+
+     url = `https://${etherscanSubdomain}.etherscan.io`;
+
+    return { url };
+  }
+}
+
+module.exports = { getRequest, getURL };

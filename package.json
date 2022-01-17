@@ -1,6 +1,6 @@
 {
   "name": "@getsafle/transaction-controller",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Getsafle transaction controller",
   "main": "src/index.js",
   "scripts": {
@@ -11,7 +11,13 @@
     "type": "git",
     "url": "https://github.com/getsafle/transaction-controller"
   },
-  "author": "Shubham Singhal",
+  "author": "safle",
+  "contributors": [
+    {
+      "name": "Shubham",
+      "email": "shubham@getsafle.com"
+    }
+  ],
   "license": "ISC",
   "homepage": "https://github.com/getsafle/transaction-controller#readme",
   "dependencies": {
