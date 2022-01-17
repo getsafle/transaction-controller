@@ -32,8 +32,10 @@ class TransactionController {
     const etherscanSubdomain =
       network === 'mainnet' ? 'api' : `api-${network}`;
 
-    const apiUrl = `https://${etherscanSubdomain}.etherscan.io`;
-    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&page=1`;
+
+    const {url: apiUrl} = await Helper.getURL(network);
+
+    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest`;
 
     if (fromBlock) {
       url += `&startBlock=${parseInt(fromBlock, 10)}`;

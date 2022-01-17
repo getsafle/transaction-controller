@@ -50,3 +50,11 @@ Get all transactions
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
 * `network` - ethereum network selected
+
+Note: Networks supported:
+1. ropsten
+2. rinkeby
+3. kovan
+4. goerli
+5. mainnet
+6. polygon-mainnet
