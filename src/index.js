@@ -3,8 +3,8 @@ const { networks } = require('./constants');
 const { INVALID_NETWORK_ERROR } = require('./constants/responses')
 class TransactionController {
 
-  async getIncomingTransactions({ address, fromBlock, network }) {
-    const transactionsList = await this.getTransactions({ address, fromBlock, network });
+  async getIncomingTransactions({ address, fromBlock, network, apiKey }) {
+    const transactionsList = await this.getTransactions({ address, fromBlock, network, apiKey });
     let incomingTransactions = [];
     transactionsList.forEach(element => {
       if (element['to'] === address.toLowerCase()) {
@@ -14,8 +14,8 @@ class TransactionController {
     return incomingTransactions;
   }
 
-  async getOutgoingTransactions({ address, fromBlock, network }) {
-    const transactionsList = await this.getTransactions({ address, fromBlock, network });
+  async getOutgoingTransactions({ address, fromBlock, network, apiKey }) {
+    const transactionsList = await this.getTransactions({ address, fromBlock, network, apiKey });
     let outgoingTransactions = [];
     transactionsList.forEach(element => {
       if (element['from'] === address.toLowerCase()) {
@@ -25,17 +25,14 @@ class TransactionController {
     return outgoingTransactions;
   }
 
-  async getTransactions({ address, fromBlock, network }) {
+  async getTransactions({ address, fromBlock, network, apiKey }) {
     if (!networks.includes(network)) {
       return INVALID_NETWORK_ERROR;
     }
-    const etherscanSubdomain =
-      network === 'mainnet' ? 'api' : `api-${network}`;
-
 
     const {url: apiUrl} = await Helper.getURL(network);
 
-    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest`;
+    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&apikey=${apiKey}`;
 
     if (fromBlock) {
       url += `&startBlock=${parseInt(fromBlock, 10)}`;

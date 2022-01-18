@@ -27,29 +27,32 @@ Initialise the class using,
 
 Get incoming transactions
 
-`const incomingTransactions= await tranasctionsController.getIncomingTransactions({ address, fromBlock, network }) `
+`const incomingTransactions= await transactionsController.getIncomingTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
 * `network` - ethereum network selected
+* `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 
 Get outgoing transactions
 
-`const outgoingTransactions= await tranasctionsController.getOutgoingTransactions({ address, fromBlock, network }) `
+`const outgoingTransactions= await transactionsController.getOutgoingTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
 * `network` - ethereum network selected
+* `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 
 Get all transactions
 
-`const transactions= await tranasctionsController.getTransactions({ address, fromBlock, network }) `
+`const transactions= await transactionsController.getTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
 * `network` - ethereum network selected
+* `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 Note: Networks supported:
 1. ropsten
