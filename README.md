@@ -27,7 +27,7 @@ Initialise the class using,
 
 Get incoming transactions
 
-`const incomingTransactions= await tranasctionsController.getIncomingTransactions({ address, fromBlock, network, apiKey }) `
+`const incomingTransactions= await transactionsController.getIncomingTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
@@ -37,7 +37,7 @@ Get incoming transactions
 
 Get outgoing transactions
 
-`const outgoingTransactions= await tranasctionsController.getOutgoingTransactions({ address, fromBlock, network, apiKey }) `
+`const outgoingTransactions= await transactionsController.getOutgoingTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
@@ -47,7 +47,7 @@ Get outgoing transactions
 
 Get all transactions
 
-`const transactions= await tranasctionsController.getTransactions({ address, fromBlock, network, apiKey }) `
+`const transactions= await transactionsController.getTransactions({ address, fromBlock, network, apiKey }) `
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
