@@ -61,3 +61,12 @@ Note: Networks supported:
 4. goerli
 5. mainnet
 6. polygon-mainnet
+
+
+Analyze Transactions
+
+`const result = await transactionsController.analyzeTransaction(transactionHash, rpcUrl, network)`
+
+* `transactionHash` - The transaction hash for the transaction to be analyzed.
+* `rpcUrl` - RPC URL of the chain of the transaction hash passed.
+* `network` - Network to be used to query the safleId. valid inputs - mainnet or testnet
