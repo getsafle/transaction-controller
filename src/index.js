@@ -89,7 +89,7 @@ class TransactionController {
     if (functionName === 'Transfer') {
       const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, web3);
 
-      id = await safleId.getSafleId(to, web3);
+      id = await safleId.getSafleId(tokenTransferDetails.recepient);
 
       tokenTxParams = tokenTransferDetails;
     }
