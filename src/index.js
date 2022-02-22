@@ -65,7 +65,9 @@ class TransactionController {
 
     let txType;
 
-    const { to, value, from, input } = await web3.eth.getTransaction(transactionHash);
+    const { to, value, from, input, blockNumber } = await web3.eth.getTransaction(transactionHash);
+    
+    const { timestamp } = await web3.eth.getBlock(blockNumber);
 
     const isEOA = await Helper.isEOA(to, web3);
 
@@ -74,7 +76,7 @@ class TransactionController {
 
       const id = await safleId.getSafleId(to);
 
-      const output = { from, value: web3.utils.fromWei(value, 'ether'), txType, safleId: id, to }
+      const output = { from, value: web3.utils.fromWei(value, 'ether'), txType, safleId: id, to, timeStamp: timestamp }
 
       return output;
     }
@@ -87,14 +89,14 @@ class TransactionController {
     let id;
 
     if (functionName === 'Transfer') {
-      const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, web3);
+      const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, to, rpcUrl);
 
       id = await safleId.getSafleId(tokenTransferDetails.recepient);
 
       tokenTxParams = tokenTransferDetails;
     }
 
-    const output = (tokenTxParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams: tokenTxParams };
+    const output = (tokenTxParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams: tokenTxParams, timeStamp: timestamp };
 
     return output;
   }
