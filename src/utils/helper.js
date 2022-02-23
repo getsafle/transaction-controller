@@ -1,4 +1,5 @@
 const axios= require('axios');
+const Controller = require('@getsafle/custom-token-controller');
 
 const abiDecoder = require('../events');
 const sigs = require('../function-signatures');
@@ -44,8 +45,8 @@ async function isEOA(address, web3) {
 
 async function extractLogs(transactionHash, web3) {
     let eventParams = [];
-
-    const { logs} = await web3.eth.getTransactionReceipt(transactionHash);
+5
+    const { logs } = await web3.eth.getTransactionReceipt(transactionHash);
 
     const decodedLogs = abiDecoder.decodeLogs(logs);
 
@@ -65,7 +66,7 @@ async function extractFunctionName(input) {
 
     const signature = input.substring(0, 10);
 
-    if(sigs[signature] === 'undefined') {
+    if (sigs[signature] === 'undefined') {
         functionName = signature;
     } else {
         functionName = sigs[signature];
@@ -74,14 +75,19 @@ async function extractFunctionName(input) {
     return functionName;
 }
 
-async function extractTokenTransferDetails(input, web3) {
+async function extractTokenTransferDetails(input, to, rpcUrl) {
     abiDecoder.addABI(transferABI);
 
     const decodedData = abiDecoder.decodeMethod(input);
 
+    const tokenController = new Controller.CustomTokenController({ rpcURL: rpcUrl });
+
+    const tokenDetails = await tokenController.getTokenDetails(to);
+
     const output = {
-        recepient: decodedData.params[0].value,
-        value: web3.utils.fromWei(decodedData.params[1].value, 'ether'),
+      tokenSymbol: tokenDetails.symbol,
+      recepient: decodedData.params[0].value,
+      value: decodedData.params[1].value/10**parseInt(tokenDetails.decimal),
     }
 
     return output;
