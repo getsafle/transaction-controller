@@ -85,7 +85,7 @@ class TransactionController {
 
     const functionName = await Helper.extractFunctionName(input);
 
-    let tokenTxParams;
+    let txParams;
     let id;
 
     if (functionName === 'Transfer') {
@@ -93,10 +93,16 @@ class TransactionController {
 
       id = await safleId.getSafleId(tokenTransferDetails.recepient);
 
-      tokenTxParams = tokenTransferDetails;
+      txParams = tokenTransferDetails;
     }
 
-    const output = (tokenTxParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams: tokenTxParams, timeStamp: timestamp };
+    if (functionName.includes('Swap')) {
+      const tokenSwapDetails = await Helper.extractTokenSwapDetails(functionName, input, transactionHash, rpcUrl);
+
+      txParams = tokenSwapDetails;
+    }
+
+    const output = (txParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams, timeStamp: timestamp };
 
     return output;
   }
