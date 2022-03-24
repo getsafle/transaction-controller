@@ -19,3 +19,7 @@
 
 * `analyzeTransaction()` function returns the transaction timestamp.
 * If the transactionHash belongs to a token transfer, then the amount is calculated keeping the decimal precision in check and also returns the token symbol.
+
+### 1.2.0 (2022-03-23)
+
+* `analyzeTransaction()` function now extracts & returns the swap function parameters like `srcToken`, `destToken`, `srcAmount`, `destAmount`, `srcContractAddress` and `destContractAddress`.
