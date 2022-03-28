@@ -1,10 +1,12 @@
-const swapABI1 = require('./swap-abi-1');
-const swapABI2 = require('./swap-abi-2');
-const swapABI3 = require('./swap-abi-3');
-const swapABI4 = require('./swap-abi-4');
-const swapABI5 = require('./swap-abi-5');
-const swapABI6 = require('./swap-abi-6');
-const transferABI = require('./transfer-abi');
+const swapABI1 = require('./swap-1');
+const swapABI2 = require('./swap-2');
+const swapABI3 = require('./swap-3');
+const swapABI4 = require('./swap-4');
+const swapABI5 = require('./swap-5');
+const swapABI6 = require('./swap-6');
+const transferABI = require('./transfer');
+const erc20ABI = require('./erc20');
+const erc721ABI = require('./erc721');
 
 module.exports = {
     swapABI1,
@@ -14,4 +16,6 @@ module.exports = {
     swapABI5,
     swapABI6,
     transferABI,
+    erc20ABI,
+    erc721ABI,
 }

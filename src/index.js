@@ -81,25 +81,43 @@ class TransactionController {
       return output;
     }
 
-    const logs = await Helper.extractLogs(transactionHash, web3);
-
-    const functionName = await Helper.extractFunctionName(input);
-
     let txParams;
     let id;
+    let logs;
+    
+    const functionName = await Helper.extractFunctionName(input);
 
-    if (functionName === 'Transfer') {
-      const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, to, rpcUrl);
+    const isNFT = await Helper.isNFT(to, rpcUrl);
 
-      id = await safleId.getSafleId(tokenTransferDetails.recepient);
+    if (isNFT) {
+      txType = 'contract-call';
 
-      txParams = tokenTransferDetails;
-    }
+      logs = await Helper.extractNFTLogs(transactionHash, web3);
 
-    if (functionName.includes('Swap')) {
-      const tokenSwapDetails = await Helper.extractTokenSwapDetails(functionName, input, transactionHash, rpcUrl);
+      if (functionName === 'Transfer') {
+        const nftTransferDetails = await Helper.extractNFTTransferDetails(input);
 
-      txParams = tokenSwapDetails;
+        id = await safleId.getSafleId(nftTransferDetails.recepient);
+
+        txParams = nftTransferDetails;
+      }
+
+    } else {
+      logs = await Helper.extractLogs(transactionHash, web3);
+
+      if (functionName === 'Transfer') {
+        const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, to, rpcUrl, from);
+  
+        id = await safleId.getSafleId(tokenTransferDetails.recepient);
+  
+        txParams = tokenTransferDetails;
+      }
+  
+      if (functionName.includes('Swap')) {
+        const tokenSwapDetails = await Helper.extractTokenSwapDetails(functionName, input, transactionHash, rpcUrl);
+  
+        txParams = tokenSwapDetails;
+      }
     }
 
     const output = (txParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams, timeStamp: timestamp };

@@ -21,6 +21,8 @@ const sig = {
     '0xa694fc3a': 'Stake',
     '0x7ace4bb2': 'Exit',
     '0xa6f873aa': 'Claim Reward',
+    '0x8ba4cc3c': 'Airdrop',
+    '0x23b872dd': 'Transfer From'
 }
 
 module.exports = sig;
