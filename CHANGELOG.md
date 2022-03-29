@@ -27,3 +27,7 @@
 ### 1.3.0 (2022-03-27)
 
 * `analyzeTransaction()` function now extracts & returns the nft transaction parameters like the sender address, receiver address and the token id.
+
+### 1.4.0 (2022-03-29)
+
+* `analyzeTransaction()` - Added detection and parameter extraction for `transferFrom` function call for erc20 and erc721 tokens.
