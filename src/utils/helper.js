@@ -1,8 +1,8 @@
 const axios= require('axios');
 const Web3 = require('web3');
-const Controller = require('@getsafle/custom-token-controller');
+const TokenController = require('@getsafle/custom-token-controller');
 
-const abiDecoder = require('../events');
+const events = require('../events');
 const sigs = require('../function-signatures');
 const ABIs = require('../function-abis');
 
@@ -49,7 +49,27 @@ async function extractLogs(transactionHash, web3) {
 
   const { logs } = await web3.eth.getTransactionReceipt(transactionHash);
 
-  const decodedLogs = abiDecoder.decodeLogs(logs);
+  const decodedLogs = events.abiDecoder.decodeLogs(logs);
+
+  decodedLogs.forEach((txs) => {
+    let parameters = []
+    eventParams.push({ name: txs.name, parameters });
+    txs.events.forEach((parameter) => {
+      eventParams[eventParams.length - 1].parameters.push({ name: parameter.name, value: parameter.value, type: parameter.type });
+    });
+  })
+
+  return eventParams;
+}
+
+async function extractNFTLogs(transactionHash, web3) {
+  await addABI([events.erc721Approval, events.erc721Transfer]);
+
+  let eventParams = [];
+
+  const { logs } = await web3.eth.getTransactionReceipt(transactionHash);
+
+  const decodedLogs = events.abiDecoder.decodeLogs(logs);
 
   decodedLogs.forEach((txs) => {
     let parameters = []
@@ -76,16 +96,17 @@ async function extractFunctionName(input) {
   return functionName;
 }
 
-async function extractTokenTransferDetails(input, to, rpcUrl) {
-  abiDecoder.addABI(ABIs.transferABI);
+async function extractTokenTransferDetails(input, to, rpcUrl, from) {
+  await addABI([ABIs.transferABI]);
 
-  const decodedData = abiDecoder.decodeMethod(input);
+  const decodedData = events.abiDecoder.decodeMethod(input);
 
-  const tokenController = new Controller.CustomTokenController({ rpcURL: rpcUrl });
+  const tokenController = new TokenController.CustomTokenController({ rpcURL: rpcUrl });
 
   const tokenDetails = await tokenController.getTokenDetails(to);
 
   const output = {
+    from,
     tokenSymbol: tokenDetails.symbol,
     recepient: decodedData.params[0].value,
     value: decodedData.params[1].value/10**parseInt(tokenDetails.decimal),
@@ -96,17 +117,11 @@ async function extractTokenTransferDetails(input, to, rpcUrl) {
 
 async function extractTokenSwapDetails(functionName, input, transactionHash, rpcUrl) {
   const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
-  const tokenController = new Controller.CustomTokenController({ rpcURL: rpcUrl });
+  const tokenController = new TokenController.CustomTokenController({ rpcURL: rpcUrl });
 
+  await addABI([ABIs.swapABI1, ABIs.swapABI2, ABIs.swapABI3, ABIs.swapABI4, ABIs.swapABI5, ABIs.swapABI6]);
 
-  abiDecoder.addABI(ABIs.swapABI1);
-  abiDecoder.addABI(ABIs.swapABI2);
-  abiDecoder.addABI(ABIs.swapABI3);
-  abiDecoder.addABI(ABIs.swapABI4);
-  abiDecoder.addABI(ABIs.swapABI5);
-  abiDecoder.addABI(ABIs.swapABI6);
-
-  const decodedData = abiDecoder.decodeMethod(input);
+  const decodedData = events.abiDecoder.decodeMethod(input);
 
   const logs = await this.extractLogs(transactionHash, web3);
 
@@ -210,4 +225,79 @@ async function extractTokenSwapDetails(functionName, input, transactionHash, rpc
   return output;
 }
 
-module.exports = { getRequest, getURL, isEOA, extractLogs, extractFunctionName, extractTokenTransferDetails, extractTokenSwapDetails };
+async function extractNFTTransferDetails(input, rpcUrl) {
+  await addABI([ABIs.erc721ABI]);
+
+  const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+
+  const erc721Instance = new web3.eth.Contract(ABIs.erc721ABI, contractAddress);
+
+  const baseURI = await erc721Instance.methods.baseURI().call();
+
+  const decodedData = events.abiDecoder.decodeMethod(input);
+
+  const output = {
+    from: decodedData.params[0].value,
+    recepient: decodedData.params[1].value,
+    tokenId: decodedData.params[2].value,
+    image: `${baseURI}/decodedData.params[2].value`
+  }
+
+  return output;
+}
+
+async function isNFT(contractAddress, rpcUrl) {
+  const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+
+  const erc20Instance = new web3.eth.Contract(ABIs.erc20ABI, contractAddress);
+  const erc721Instance = new web3.eth.Contract(ABIs.erc721ABI, contractAddress);
+
+  let isERC20;
+  let isERC721;
+  let status;
+
+  try {
+    await erc20Instance.methods.decimals().call();
+
+    isERC20 = true;
+  } catch (error) {
+    isERC20 = false;
+  }
+
+  try {
+    await erc721Instance.methods.isApprovedForAll('0x617F2E2fD72FD9D5503197092aC168c91465E7f2', '0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C').call();
+
+    isERC721 = true
+  } catch (error) {
+    isERC721 = false;
+  }
+
+  if (!isERC721 && !isERC20) {
+    status = false;
+  } else {
+    status = isERC721;
+  }
+
+  return status;
+}
+
+async function addABI(abiArray) {
+  abiArray.forEach(abi => {
+    events.abiDecoder.addABI(abi);
+  });
+
+  return true;
+}
+
+module.exports = {
+  getRequest,
+  getURL,
+  isEOA,
+  extractLogs,
+  extractFunctionName,
+  extractTokenTransferDetails,
+  extractTokenSwapDetails,
+  extractNFTTransferDetails,
+  isNFT,
+  extractNFTLogs,
+};

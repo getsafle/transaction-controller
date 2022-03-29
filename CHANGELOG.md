@@ -23,3 +23,7 @@
 ### 1.2.0 (2022-03-23)
 
 * `analyzeTransaction()` function now extracts & returns the swap function parameters like `srcToken`, `destToken`, `srcAmount`, `destAmount`, `srcContractAddress` and `destContractAddress`.
+
+### 1.3.0 (2022-03-27)
+
+* `analyzeTransaction()` function now extracts & returns the nft transaction parameters like the sender address, receiver address and the token id.
