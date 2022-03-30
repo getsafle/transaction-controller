@@ -94,19 +94,17 @@ class TransactionController {
 
       logs = await Helper.extractNFTLogs(transactionHash, web3);
 
-      if (functionName === 'Transfer') {
-        const nftTransferDetails = await Helper.extractNFTTransferDetails(input);
+      const nftTransferDetails = await Helper.extractNFTTransferDetails(input, functionName);
 
-        id = await safleId.getSafleId(nftTransferDetails.recepient);
+      id = await safleId.getSafleId(nftTransferDetails.recepient);
 
-        txParams = nftTransferDetails;
-      }
+      txParams = nftTransferDetails;
 
     } else {
       logs = await Helper.extractLogs(transactionHash, web3);
 
-      if (functionName === 'Transfer') {
-        const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, to, rpcUrl, from);
+      if (functionName.includes('Transfer')) {
+        const tokenTransferDetails = await Helper.extractTokenTransferDetails(input, to, rpcUrl, from, functionName);
   
         id = await safleId.getSafleId(tokenTransferDetails.recepient);
   

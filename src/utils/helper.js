@@ -96,8 +96,8 @@ async function extractFunctionName(input) {
   return functionName;
 }
 
-async function extractTokenTransferDetails(input, to, rpcUrl, from) {
-  await addABI([ABIs.transferABI]);
+async function extractTokenTransferDetails(input, to, rpcUrl, from, functionName) {
+  await addABI([ABIs.erc20ABI]);
 
   const decodedData = events.abiDecoder.decodeMethod(input);
 
@@ -105,11 +105,31 @@ async function extractTokenTransferDetails(input, to, rpcUrl, from) {
 
   const tokenDetails = await tokenController.getTokenDetails(to);
 
-  const output = {
-    from,
-    tokenSymbol: tokenDetails.symbol,
-    recepient: decodedData.params[0].value,
-    value: decodedData.params[1].value/10**parseInt(tokenDetails.decimal),
+  let output;
+
+  switch (functionName) {
+
+    case 'Transfer':
+      output = {
+        from,
+        tokenSymbol: tokenDetails.symbol,
+        recepient: decodedData.params[0].value,
+        value: decodedData.params[1].value/10**parseInt(tokenDetails.decimal),
+      }
+
+      break;
+
+    case 'Transfer From':
+      output = {
+        operator: from,
+        from: decodedData.params[0].value,
+        tokenSymbol: tokenDetails.symbol,
+        recepient: decodedData.params[1].value,
+        value: decodedData.params[2].value/10**parseInt(tokenDetails.decimal),
+      }
+
+      break;
+
   }
 
   return output;
@@ -225,22 +245,33 @@ async function extractTokenSwapDetails(functionName, input, transactionHash, rpc
   return output;
 }
 
-async function extractNFTTransferDetails(input, rpcUrl) {
+async function extractNFTTransferDetails(input, functionName) {
   await addABI([ABIs.erc721ABI]);
-
-  const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
-
-  const erc721Instance = new web3.eth.Contract(ABIs.erc721ABI, contractAddress);
-
-  const baseURI = await erc721Instance.methods.baseURI().call();
 
   const decodedData = events.abiDecoder.decodeMethod(input);
 
-  const output = {
-    from: decodedData.params[0].value,
-    recepient: decodedData.params[1].value,
-    tokenId: decodedData.params[2].value,
-    image: `${baseURI}/decodedData.params[2].value`
+  let output;
+
+  switch (functionName) {
+
+    case 'Transfer':
+      output = {
+        from: decodedData.params[0].value,
+        recepient: decodedData.params[1].value,
+        tokenId: decodedData.params[2].value,
+      }
+
+      break;
+    
+    case 'Transfer From':
+      output = {
+        from: decodedData.params[0].value,
+        recepient: decodedData.params[1].value,
+        tokenId: decodedData.params[2].value,
+      }
+
+      break;
+
   }
 
   return output;
