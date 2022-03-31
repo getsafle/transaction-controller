@@ -31,3 +31,7 @@
 ### 1.4.0 (2022-03-29)
 
 * `analyzeTransaction()` - Added detection and parameter extraction for `transferFrom` function call for erc20 and erc721 tokens.
+
+### 1.4.1 (2022-03-31)
+
+* `analyzeTransaction()` - Added detection for `safeTransferFrom` function calls for erc721 tokens.
