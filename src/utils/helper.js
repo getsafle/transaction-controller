@@ -272,6 +272,15 @@ async function extractNFTTransferDetails(input, functionName) {
 
       break;
 
+    case 'Safe Transfer From':
+      output = {
+        from: decodedData.params[0].value,
+        recepient: decodedData.params[1].value,
+        tokenId: decodedData.params[2].value,
+      }
+
+      break;
+
   }
 
   return output;
