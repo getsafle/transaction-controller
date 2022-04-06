@@ -61,6 +61,7 @@ Note: Networks supported:
 4. goerli
 5. mainnet
 6. polygon-mainnet
+6. bsc-mainnet
 
 
 Analyze Transactions
