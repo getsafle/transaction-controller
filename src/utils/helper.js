@@ -25,6 +25,11 @@ async function getURL(network) {
 
     return { url };
   }
+  if (network === 'bsc-mainnet') {
+    let url =  `https://api.bscscan.com`;
+
+    return { url };
+  }
   else {
     const etherscanSubdomain = network === 'mainnet' ? 'api' : `api-${network}`;
 
