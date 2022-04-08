@@ -118,7 +118,9 @@ class TransactionController {
       }
     }
 
-    const output = (txParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams, timeStamp: timestamp };
+    const contractAddress = to;
+
+    const output = (txParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp, contractAddress } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams, timeStamp: timestamp, contractAddress };
 
     return output;
   }

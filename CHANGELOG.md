@@ -39,3 +39,7 @@
 ### 1.5.0 (2022-04-06)
 
 * Updated methods to get user transactions on binance smart chain
+
+### 1.5.1 (2022-04-08)
+
+* `analyzeTransaction()` returns the contract address paramater for contract-interaction transaction.
