@@ -1,6 +1,6 @@
 {
   "name": "@getsafle/transaction-controller",
-  "version": "1.5.1",
+  "version": "1.6.1",
   "description": "Getsafle transaction controller",
   "main": "src/index.js",
   "scripts": {
@@ -29,7 +29,7 @@
   "homepage": "https://github.com/getsafle/transaction-controller#readme",
   "dependencies": {
     "@getsafle/custom-token-controller": "^1.0.3",
-    "@getsafle/safle-identity-wallet": "^1.2.1",
+    "@getsafle/safle-identity-wallet": "^1.2.2",
     "abi-decoder": "^2.4.0",
     "axios": "^0.21.1",
     "web3": "^1.7.1"

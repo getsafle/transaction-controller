@@ -7,6 +7,8 @@ const swapABI6 = require('./swap-6');
 const transferABI = require('./transfer');
 const erc20ABI = require('./erc20');
 const erc721ABI = require('./erc721');
+const CryptoPunks = require('./crypto-punks');
+const CryptoKitties = require('./crypto-kitties');
 
 module.exports = {
     swapABI1,
@@ -18,4 +20,6 @@ module.exports = {
     transferABI,
     erc20ABI,
     erc721ABI,
+    CryptoPunks,
+    CryptoKitties,
 }

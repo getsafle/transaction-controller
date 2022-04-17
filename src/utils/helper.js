@@ -5,6 +5,7 @@ const TokenController = require('@getsafle/custom-token-controller');
 const events = require('../events');
 const sigs = require('../function-signatures');
 const ABIs = require('../function-abis');
+const oldNFTContracts = require('../utils/old-nft-contracts');
 
 async function getRequest({ url }) {
   try {
@@ -68,11 +69,15 @@ async function extractLogs(transactionHash, web3) {
 }
 
 async function extractNFTLogs(transactionHash, web3) {
-  await addABI([events.erc721Approval, events.erc721Transfer]);
+  await addABI([ABIs.erc721ABI]);
 
   let eventParams = [];
 
-  const { logs } = await web3.eth.getTransactionReceipt(transactionHash);
+  const { logs, to } = await web3.eth.getTransactionReceipt(transactionHash);
+
+  if (oldNFTContracts[web3.utils.toChecksumAddress(to)] !== undefined) {
+    await addABI([ABIs[oldNFTContracts[web3.utils.toChecksumAddress(to)]]]);
+  }
 
   const decodedLogs = events.abiDecoder.decodeLogs(logs);
 
@@ -250,38 +255,70 @@ async function extractTokenSwapDetails(functionName, input, transactionHash, rpc
   return output;
 }
 
-async function extractNFTTransferDetails(input, functionName) {
+async function extractNFTTransferDetails(input, functionName, contractAddress, from, web3) {
   await addABI([ABIs.erc721ABI]);
 
   const decodedData = events.abiDecoder.decodeMethod(input);
 
   let output;
 
-  switch (functionName) {
+  if (oldNFTContracts[web3.utils.toChecksumAddress(contractAddress)] !== undefined) {
+    output = await getOldNFTContractOutput(decodedData, functionName, from);
+  } else {
+    switch (functionName) {
+  
+      case 'Transfer':
+        output = {
+          from,
+          recepient: decodedData.params[1].value,
+          tokenId: decodedData.params[2].value,
+        }
+  
+        break;
+      
+      case 'Transfer From':
+        output = {
+          from: decodedData.params[0].value,
+          recepient: decodedData.params[1].value,
+          tokenId: decodedData.params[2].value,
+        }
+  
+        break;
+  
+      case 'Safe Transfer From':
+        output = {
+          from: decodedData.params[0].value,
+          recepient: decodedData.params[1].value,
+          tokenId: decodedData.params[2].value,
+        }
+  
+        break;
+
+    }
+  }
+
+  return output;
+}
+
+async function getOldNFTContractOutput(decodedData, functionName, from) {
+  let output;
+
+  switch(functionName) {
+
+    case 'Transfer Punk':
+      output = {
+        from,
+        recepient: decodedData.params[0].value,
+        tokenId: decodedData.params[1].value,
+      }
+
+      break;
 
     case 'Transfer':
       output = {
-        from: decodedData.params[0].value,
-        recepient: decodedData.params[1].value,
-        tokenId: decodedData.params[2].value,
-      }
-
-      break;
-    
-    case 'Transfer From':
-      output = {
-        from: decodedData.params[0].value,
-        recepient: decodedData.params[1].value,
-        tokenId: decodedData.params[2].value,
-      }
-
-      break;
-
-    case 'Safe Transfer From':
-      output = {
-        from: decodedData.params[0].value,
-        recepient: decodedData.params[1].value,
-        tokenId: decodedData.params[2].value,
+        from,
+        recepient: decodedData.params[0].value,
+        tokenId: decodedData.params[1].value,
       }
 
       break;
@@ -316,6 +353,8 @@ async function isNFT(contractAddress, rpcUrl) {
   } catch (error) {
     isERC721 = false;
   }
+
+  isERC721 = (isERC721 === false && oldNFTContracts[web3.utils.toChecksumAddress(contractAddress)] !== undefined) ? true : isERC721;
 
   if (!isERC721 && !isERC20) {
     status = false;

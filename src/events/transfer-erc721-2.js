@@ -3,21 +3,21 @@ const TransferEvent = [
         "anonymous":false,
         "inputs": [
             {
-                "indexed":true,
+                "indexed":false,
                 "internalType":"address",
-                "name":"from",
+                "name":"_from",
                 "type":"address"
             },
             {
-                "indexed":true,
+                "indexed":false,
                 "internalType":"address",
-                "name":"to",
+                "name":"_to",
                 "type":"address"
             },
             {
-                "indexed":true,
+                "indexed":false,
                 "internalType":"uint256",
-                "name":"tokenId",
+                "name":"_tokenId",
                 "type":"uint256"
             }
         ],

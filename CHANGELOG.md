@@ -43,3 +43,7 @@
 ### 1.5.1 (2022-04-08)
 
 * `analyzeTransaction()` returns the contract address paramater for contract-interaction transaction.
+
+### 1.6.1 (2022-04-18)
+
+* `analyzeTransaction()` also detects the NFTs which uses the deprecated erc721 contract standard. Supported old NFT contracts include [CryptoKitties](https://etherscan.io/address/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d) and [CryptoPunks](https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB).
