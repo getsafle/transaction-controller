@@ -24,6 +24,17 @@ const sig = {
     '0x8ba4cc3c': 'Airdrop',
     '0x23b872dd': 'Transfer From',
     '0x42842e0e': 'Safe Transfer From',
+    '0xf242432a': 'Safe Transfer From',
+    '0xa22cb465': 'Set Approval For All',
+    '0xab834bab': 'Atomic Match_',
+    '0x3f801f91': 'Proxy Assert',
+    '0x58fbdd0a': 'Buy And Swap721',
+    '0x0c53c51c': 'Execute Meta Transaction',
+    '0x8b72a2ec': 'Transfer Punk',
+    '0x8264fe98': 'Buy Punk',
+    '0xc44193c3': 'Offer Punk For Sale',
+    '0x091dbfd2': 'Enter Bid For Punk',
+    '0x23165b75': 'Accept Bid For Punk',
 }
 
 module.exports = sig;
