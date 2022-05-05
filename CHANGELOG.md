@@ -47,3 +47,7 @@
 ### 1.6.1 (2022-04-18)
 
 * `analyzeTransaction()` also detects the NFTs which uses the deprecated erc721 contract standard. Supported old NFT contracts include [CryptoKitties](https://etherscan.io/address/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d) and [CryptoPunks](https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB).
+
+### 1.7.0 (2022-05-05)
+
+* `getTransactionType()` - Added a function to detect the type of transaction based on the function name and input datatype.

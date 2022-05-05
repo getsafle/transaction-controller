@@ -4,6 +4,7 @@ const SafleId = require('@getsafle/safle-identity-wallet').SafleID;
 const Helper = require('./utils/helper');
 const { networks } = require('./constants');
 const { INVALID_NETWORK_ERROR } = require('./constants/responses');
+const sigs = require('./function-signatures');
 
 class TransactionController {
 
@@ -123,6 +124,26 @@ class TransactionController {
     const contractAddress = to;
 
     const output = (txParams === undefined) ? { from, txType: 'contract-call', logs, safleId: id, functionName, timeStamp: timestamp, contractAddress } : { from, txType: 'contract-call', logs, safleId: id, functionName, txParams, timeStamp: timestamp, contractAddress };
+
+    return output;
+  }
+
+  getTransactionType(functionInput, rpcUrl) {
+    const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
+
+    const signature = web3.eth.abi.encodeFunctionSignature(functionInput);
+
+    let functionName = (sigs[signature] === undefined) ? signature : sigs[signature];
+
+    let output;
+
+    if (functionName.includes('Swap')) {
+      output = 'Swap';
+    } else {
+      output = functionName;
+    }
+
+    console.log(output);
 
     return output;
   }
