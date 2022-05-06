@@ -71,3 +71,10 @@ Analyze Transactions
 * `transactionHash` - The transaction hash for the transaction to be analyzed.
 * `rpcUrl` - RPC URL of the chain of the transaction hash passed.
 * `network` - Network to be used to query the safleId. valid inputs - mainnet or testnet
+
+Get Transaction Type
+
+`const transactionType = transactionsController.getTransactionType(functionInput, rpcUrl);`
+
+* `functionInput` - The function name and the input parameter datatype in string format.
+* `rpcUrl` - RPC URL of the chain of the transaction hash passed.

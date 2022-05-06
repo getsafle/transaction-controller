@@ -97,7 +97,7 @@ async function extractFunctionName(input) {
 
   const signature = input.substring(0, 10);
 
-  if (sigs[signature] === 'undefined') {
+  if (sigs[signature] === undefined) {
       functionName = signature;
   } else {
       functionName = sigs[signature];
