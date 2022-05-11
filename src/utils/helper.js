@@ -31,6 +31,11 @@ async function getURL(network) {
 
     return { url };
   }
+  if(network === 'avalanche-mainnet') {
+    let url =`https://api.snowtrace.io`;
+
+    return { url };
+  }
   else {
     const etherscanSubdomain = network === 'mainnet' ? 'api' : `api-${network}`;
 
