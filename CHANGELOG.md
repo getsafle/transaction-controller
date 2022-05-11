@@ -52,6 +52,6 @@
 
 * `getTransactionType()` - Added a function to detect the type of transaction based on the function name and input datatype.
 
-### 1.7.0 (2022-05-11)
+### 1.7.1 (2022-05-11)
 
 * Updated methods to get transactions on avalanche chain
