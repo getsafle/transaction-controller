@@ -1,6 +1,6 @@
 {
   "name": "@getsafle/transaction-controller",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Getsafle transaction controller",
   "main": "src/index.js",
   "scripts": {
