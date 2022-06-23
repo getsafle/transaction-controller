@@ -31,7 +31,7 @@ Get incoming transactions
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
-* `network` - ethereum network selected
+* `network` - ethereum network selected/ chain selected
 * `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 
@@ -41,7 +41,7 @@ Get outgoing transactions
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
-* `network` - ethereum network selected
+* `network` - ethereum network selected/ chain selected
 * `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 
@@ -51,7 +51,7 @@ Get all transactions
 
 * `address` - user wallet public address, 
 * `fromBlock` - Start block number
-* `network` - ethereum network selected
+* `network` - ethereum network selected/ chain selected
 * `apiKey` - etherscan/polygonscan api key(based on the network selected)
 
 Note: Networks supported:
@@ -62,6 +62,7 @@ Note: Networks supported:
 5. mainnet
 6. polygon-mainnet
 6. bsc-mainnet
+7. bitcoin
 
 
 Analyze Transactions

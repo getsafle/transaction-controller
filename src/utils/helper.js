@@ -36,6 +36,11 @@ async function getURL(network) {
 
     return { url };
   }
+  if(network === 'bitcoin') {
+    let url =`https://blockchain.info/rawaddr`;
+
+    return { url };
+  }
   else {
     const etherscanSubdomain = network === 'mainnet' ? 'api' : `api-${network}`;
 
