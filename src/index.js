@@ -13,6 +13,13 @@ class TransactionController {
 
     let incomingTransactions = [];
 
+    if(network === 'bitcoin') {
+      transactionsList.forEach(element => {
+        if (element['to'].includes(address.toLowerCase())) {
+          incomingTransactions.push(element);
+        }
+      });
+    }
     transactionsList.forEach(element => {
       if (element['to'] === address.toLowerCase()) {
         incomingTransactions.push(element);
@@ -26,7 +33,13 @@ class TransactionController {
     const transactionsList = await this.getTransactions({ address, fromBlock, network, apiKey });
 
     let outgoingTransactions = [];
-
+    if(network === 'bitcoin') {
+      transactionsList.forEach(element => {
+        if (element['from'].includes(address.toLowerCase())) {
+          outgoingTransactions.push(element);
+        }
+      });
+    }
     transactionsList.forEach(element => {
       if (element['from'] === address.toLowerCase()) {
         outgoingTransactions.push(element);
@@ -42,6 +55,30 @@ class TransactionController {
     }
 
     const {url: apiUrl} = await Helper.getURL(network);
+
+    if(network === 'bitcoin') {
+      let url = `${apiUrl}/${address}`;
+      const { response } = await Helper.getRequest({ url });
+
+      let unSpendTxnDetails = []
+      response.txs.forEach(r => {
+  
+          let tx = {
+              "blockNumber": r.block_height,
+              "timeStamp": r.time,
+              "hash": r.hash,
+              "transactionIndex": r.tx_index,
+              "from": r.inputs.map(r => r.prev_out.addr),
+              "to": r.out.map(z => z.addr),
+              "gas": r.fee,
+              "isError": "",
+              "txreceipt_status": "",
+              "input": r.inputs,
+          }
+          unSpendTxnDetails.push(tx)
+      });
+      return unSpendTxnDetails;
+    }
 
     let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&apikey=${apiKey}`;
 

@@ -55,3 +55,7 @@
 ### 1.7.1 (2022-05-11)
 
 * Updated methods to get transactions on avalanche chain
+
+### 1.7.2 (2022-06-23)
+
+* Updated methods to get transactions on bitcoin chain
