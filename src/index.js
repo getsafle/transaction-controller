@@ -80,7 +80,23 @@ class TransactionController {
       return unSpendTxnDetails;
     }
 
-    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&apikey=${apiKey}`;
+    else if(network === 'polygon-mainnet'){
+      let url = `${apiUrl}/address/${address}/transactions?page=1&pageSize=100&auth_key=${apiKey}`;
+      const { response } = await Helper.getRequest({ url });
+      const {transactions} = response
+
+      transactions.forEach(async(element)=>{
+        element.hash = element.id;
+        element.blockNumber = element.block;
+        element.timeStamp = element.date;
+        delete element.id;
+        delete element.block;
+        delete element.date;
+      })
+
+      return transactions;
+    }
+    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&auth_key=${apiKey}`;
 
     if (fromBlock) {
       url += `&startBlock=${parseInt(fromBlock, 10)}`;
