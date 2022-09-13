@@ -27,7 +27,7 @@ async function getURL(network) {
     return { url };
   }
   if (network === 'bsc-mainnet') {
-    let url =  `https://api.bscscan.com`;
+    let url =  `https://api.unmarshal.com/v2/bsc`;
 
     return { url };
   }
@@ -42,9 +42,8 @@ async function getURL(network) {
     return { url };
   }
   else {
-    const etherscanSubdomain = network === 'mainnet' ? 'api' : `api-${network}`;
-
-    url = `https://${etherscanSubdomain}.etherscan.io`;
+    let url =  `https://api.unmarshal.com/v2/ethereum`;
+   
 
     return { url };
   }
