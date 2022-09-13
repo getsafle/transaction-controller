@@ -64,6 +64,11 @@
 
 * Updated getTransactions method for transactions on polygon chain
 
+
 ### 1.8.1 (2022-09-12)
 
 * Updated the README file with the latest functional & non-functional documentation.
+
+### 1.9.0 (2022-09-13)
+
+* Updated getTransactions method for transactions on bsc and ethereum chain

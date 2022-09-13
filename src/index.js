@@ -80,7 +80,7 @@ class TransactionController {
       return unSpendTxnDetails;
     }
 
-    else if(network === 'polygon-mainnet'){
+    else{
       let url = `${apiUrl}/address/${address}/transactions?page=1&pageSize=100&auth_key=${apiKey}`;
       const { response } = await Helper.getRequest({ url });
       const {transactions} = response
@@ -96,21 +96,6 @@ class TransactionController {
 
       return transactions;
     }
-    let url = `${apiUrl}/api?module=account&action=txlist&address=${address}&tag=latest&auth_key=${apiKey}`;
-
-    if (fromBlock) {
-      url += `&startBlock=${parseInt(fromBlock, 10)}`;
-    }
-
-    const { response } = await Helper.getRequest({ url });
-
-    const { status, result } = response;
-
-    if (status === '1' && result.length > 0) {
-      result.sort((a, b) => (a.timeStamp < b.timeStamp ? -1 : 1));
-    }
-
-    return result;
   }
 
   async analyzeTransaction(transactionHash, rpcUrl, network) {
