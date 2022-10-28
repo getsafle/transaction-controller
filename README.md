@@ -108,11 +108,8 @@ const transactionType = transactionsController.getTransactionType(functionInput,
 
 > Chains supported
 
-* `ropsten`
-* `rinkeby`
-* `kovan`
-* `goerli`
-* `mainnet`
-* `polygon-mainnet`
-* `bsc-mainnet`
+* `ethereum`
+* `polygon`
+* `bsc`
 * `bitcoin`
+* `avalanche`

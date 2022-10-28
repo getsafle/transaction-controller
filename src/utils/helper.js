@@ -21,17 +21,17 @@ async function getRequest({ url }) {
 }
  
 async function getURL(network) {
-  if (network === 'polygon-mainnet') {
+  if (network === 'polygon') {
     let url =  `https://api.unmarshal.com/v2/matic`;
 
     return { url };
   }
-  if (network === 'bsc-mainnet') {
+  if (network === 'bsc') {
     let url =  `https://api.unmarshal.com/v2/bsc`;
 
     return { url };
   }
-  if(network === 'avalanche-mainnet') {
+  if(network === 'avalanche') {
     let url =`https://api.snowtrace.io`;
 
     return { url };

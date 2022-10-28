@@ -72,3 +72,7 @@
 ### 1.9.0 (2022-09-13)
 
 * Updated getTransactions method for transactions on bsc and ethereum chain
+
+### 1.9.1 (2022-10-28)
+
+* Removed testnet support checking from all the chains.

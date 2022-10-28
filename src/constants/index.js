@@ -1,2 +1,1 @@
-module.exports.networks = ['ropsten', 'rinkeby', 'kovan', 'goerli', 'mainnet', 'polygon-mainnet', 'bsc-mainnet', 'avalanche-mainnet', 'bitcoin'];
-
+module.exports.networks = ['ethereum', 'polygon', 'bsc', 'avalanche', 'bitcoin'];
