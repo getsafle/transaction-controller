@@ -76,3 +76,9 @@
 ### 1.9.1 (2022-10-28)
 
 * Removed testnet support checking from all the chains.
+
+### 1.9.2 (2022-10-28)
+
+* Update package versions for safle-identity wallet & custom-token-controller
+
+

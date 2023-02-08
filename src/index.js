@@ -100,7 +100,7 @@ class TransactionController {
 
   async analyzeTransaction(transactionHash, rpcUrl, network) {
     const web3 = new Web3(new Web3.providers.HttpProvider(rpcUrl));
-    const safleId = new SafleId(network);
+    const safleId = new SafleId(network, rpcUrl);
 
     let txType;
 
