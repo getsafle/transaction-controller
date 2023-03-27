@@ -83,7 +83,7 @@
 
 ### 1.9.3 (2023-03-27)
 
-* Updated tx controller package version
+* Updated custom token controller package version
 
 
 
