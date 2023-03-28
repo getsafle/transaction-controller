@@ -81,4 +81,9 @@
 
 * Update package versions for safle-identity wallet & custom-token-controller
 
+### 1.9.3 (2023-03-27)
+
+* Updated custom token controller package version
+
+
 
